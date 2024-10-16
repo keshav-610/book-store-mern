@@ -20,13 +20,15 @@ export default function App() {
   }, [isDarkTheme]);
 
   return (
-    <div className={isDarkTheme ? "bg-zinc-950 text-white" : "bg-white text-black"}>
+    <div className={isDarkTheme ? "bg-zinc-950 text-white transition-all" : "bg-white text-black transition-all"}>
       <NavBar isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
-      <Routes>
-        <Route path="/" element={<Home isDarkTheme={isDarkTheme} />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
     </div>
   );
 }

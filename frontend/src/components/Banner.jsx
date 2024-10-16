@@ -1,9 +1,9 @@
 import bannerimg from "../assets/banner.png";
 
-const Banner = ({ isDarkTheme }) => {
+const Banner = () => {
     return (
-      <div className={`p-8 flex flex-col md:flex-row justify-center items-center ${isDarkTheme ? 'bg-zinc-950 transition' : 'bg-white transition'}`}>
-        <div className={`mt-2 w-full md:w-3/5 ${isDarkTheme ? 'text-white transition' : 'text-black transition'}`}>
+      <div className="flex flex-col md:flex-row justify-center items-center ">
+        <div className="w-full md:w-3/5 ">
           <h1 className="text-6xl font-semibold">New Releases this Week</h1>
           <p className="my-5 text-xl leading-10">
             It's time to update your reading list with some of the latest and greatest releases in the literary world. From heart-pumping thrillers to captivating memoirs, this week's new releases offer something for everyone.

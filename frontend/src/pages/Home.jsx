@@ -1,9 +1,11 @@
 import Banner from "../components/Banner";
+import TopSellers from "../components/TopSellers";
 
-const Home = ({ isDarkTheme }) => {
+const Home = () => {
   return (
-    <div className={`transition ${isDarkTheme ? "bg-zinc-950 text-white" : "bg-white text-black"}`}>
-      <Banner isDarkTheme={isDarkTheme} />
+    <div className="p-8 ">
+      <Banner />
+      <TopSellers />
     </div>
   );
 };
