@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/assets/fonts/SFPro-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+.transition {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
