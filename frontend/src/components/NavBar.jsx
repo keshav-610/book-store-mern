@@ -17,7 +17,7 @@ const NavBar = ({ isDarkTheme, setIsDarkTheme }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <div className={`flex justify-between px-3 py-4 ${isDarkTheme ? 'bg-zinc-950' : 'bg-white'} transition-all`}>
+    <div className={`flex justify-between px-3 py-4  sticky top-0 ${isDarkTheme ? 'bg-zinc-950' : 'bg-white'} transition-all`}>
       <div className="flex items-center gap-3 sm:gap-8">
         <Link to="/">
           <FaBookOpen className={isDarkTheme ? "text-white text-3xl sm:text-4xl" : "text-black text-3xl sm:text-4xl"} />
