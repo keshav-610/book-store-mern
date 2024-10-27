@@ -17,7 +17,7 @@ const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <div className="flex justify-between px-3 py-4 sticky top-0 bg-white transition-all">
+    <div className="flex justify-between px-3 py-4 sticky top-0 bg-white transition-all z-50">
       <div className="flex items-center gap-3 sm:gap-8">
         <Link to="/">
           <FaBookOpen className="text-black text-3xl sm:text-4xl" />

@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+const categories = ["Choose a Genre", "Business", "Fiction", "Horror", "Adventure"];
 
 const TopSellers = () => {
   const [books, setBooks] = useState([]);
-  const categories = ["Choose a Genre", "Business", "Fiction", "Horror", "Adventure"];
   const [selectedCategory, setSelectedCategory] = useState("Choose a Genre");
 
   useEffect(() => {
@@ -17,8 +23,8 @@ const TopSellers = () => {
     : books.filter(book => book.category === selectedCategory.toLowerCase());
 
   return (
-    <div className="p-0 md:px-8 py-16">
-      <h3 className="text-3xl font-bold">Top Sellers</h3>
+    <div className="md:py-8 mt-8 z-10">
+      <h3 className="text-2xl md:text-3xl font-bold">Top Sellers</h3>
       <div className="my-5">
         <select
           name="category"
@@ -33,22 +39,36 @@ const TopSellers = () => {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={20}
+        navigation={true}
+        breakpoints={{
+          640: { slidesPerView: 1, spaceBetween: 20 },
+          768: { slidesPerView: 2, spaceBetween: 30 },
+          1024: { slidesPerView: 3, spaceBetween: 40 },
+        }}
+        modules={[Navigation]} 
+        loop
+      >
         {filteredBooks.length > 0 ? (
           filteredBooks.map((book) => (
-            <BookCard 
-              key={book._id}
-              title={book.title}
-              description={book.description}
-              coverImage={book.coverImage}
-              oldPrice={book.oldPrice}
-              newPrice={book.newPrice}
-            />
+            <SwiperSlide key={book._id}>
+              <BookCard 
+                title={book.title}
+                description={book.description}
+                coverImage={book.coverImage}
+                oldPrice={book.oldPrice}
+                newPrice={book.newPrice}
+              />
+            </SwiperSlide>
           ))
         ) : (
-          <p>No books available for the selected genre.</p>
+          <SwiperSlide>
+            <p>No books available for the selected genre.</p>
+          </SwiperSlide>
         )}
-      </div>
+      </Swiper>
     </div>
   );
 };
