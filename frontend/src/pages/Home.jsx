@@ -3,7 +3,7 @@ import TopSellers from "../components/TopSellers";
 
 const Home = () => {
   return (
-    <div className="p-8 ">
+    <div className="p-8">
       <Banner />
       <TopSellers />
     </div>
