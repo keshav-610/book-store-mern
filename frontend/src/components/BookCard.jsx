@@ -1,14 +1,21 @@
+import { useDispatch } from "react-redux"
+import { addToCart } from "../redux/features/cart/CardSlice";
+
 function getimgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
 }
 
 const BookCard = ({ title, description, coverImage, oldPrice, newPrice }) => {
+  const dispatch = useDispatch()
+  const handleaddtocart = (product) => {
+    dispatch(addToCart(product))
+  }
   return (
     <div className="border rounded-md shadow-lg font-sans transition-transform duration-300 hover:shadow-xl overflow-hidden">
       <div className="flex justify-center w-full">
-        <img 
-          src={getimgURL(coverImage)} 
-          alt={`${title} cover`} 
+        <img
+          src={getimgURL(coverImage)}
+          alt={`${title} cover`}
         />
       </div>
       <div className="p-4">
@@ -18,7 +25,7 @@ const BookCard = ({ title, description, coverImage, oldPrice, newPrice }) => {
           <span className="text-lg font-semibold text-green-600">${newPrice}</span>
           <span className="line-through text-gray-500">${oldPrice}</span>
         </div>
-        <button className="mt-3 px-4 py-2 rounded bg-yellow-500 font-semibold text-white hover:bg-yellow-600 w-full">
+        <button className="mt-3 px-4 py-2 rounded bg-yellow-500 font-semibold text-white hover:bg-yellow-600 w-full" onClick={() => handleaddtocart({ title, description, coverImage, oldPrice, newPrice })}>
           Add to Cart
         </button>
       </div>
