@@ -4,7 +4,7 @@ const getnews_img_url = (name) => {
 
 const NewsCard = ({ image, title, description }) => {
   return (
-    <div className="border w-2/5 flex justify-between">
+    <div className="border w-4/5 flex justify-between">
       <div className="p-4 flex-shrink-0">
         <img src={getnews_img_url(image)} alt={title} />
       </div>

@@ -2,6 +2,7 @@ import Banner from "../components/Banner";
 import Recommend from "../components/Recommend";
 import TopSellers from "../components/TopSellers";
 import News from "../components/News";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <TopSellers />
       <Recommend/>
       <News/>
+      <Footer/>
     </div>
   );
 };
