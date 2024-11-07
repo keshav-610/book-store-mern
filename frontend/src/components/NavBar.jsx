@@ -4,6 +4,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -13,8 +14,10 @@ const navigation = [
 ];
 
 const NavBar = () => {
-  const currentUser = true;
+  const currentUser = false;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const cartItems = useSelector(state => state.cart.cartItems)
+
 
   return (
     <div className="flex justify-between px-3 py-4 sticky top-0 bg-white transition-all z-50">
@@ -70,8 +73,10 @@ const NavBar = () => {
           to="/cart"
           className="flex items-center justify-center px-3 py-1 sm:px-3 sm:py-2 rounded-md gap-1 bg-gray-800"
         >
-          <FaShoppingCart className="text-xl sm:text-2xl text-white" />
-          <span className="ml-1 sm:ml-2 font-semibold text-base sm:text-xl text-white">0</span>
+          <FaShoppingCart className="text-xl sm:text-xl text-white" />
+          {
+            cartItems.length > 0 ? <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">{cartItems.length}</span> : <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">0</span>
+          } 
         </Link>
       </div>
     </div>
