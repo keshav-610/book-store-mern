@@ -34,6 +34,7 @@ const Recommend = () => {
               coverImage={book.coverImage}
               oldPrice={book.oldPrice}
               newPrice={book.newPrice}
+              category={book.category}
             />
           </SwiperSlide>
         ))}

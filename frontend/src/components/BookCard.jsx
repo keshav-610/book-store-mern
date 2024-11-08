@@ -5,7 +5,7 @@ function getimgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
 }
 
-const BookCard = ({ title, description, coverImage, oldPrice, newPrice }) => {
+const BookCard = ({ title, description, coverImage, oldPrice, newPrice, category }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -15,8 +15,10 @@ const BookCard = ({ title, description, coverImage, oldPrice, newPrice }) => {
       coverImage,
       oldPrice,
       newPrice,
-      _id: title 
+      category, 
+      _id: title,
     };
+    console.log(product)
     dispatch(addToCart(product));
   };
 

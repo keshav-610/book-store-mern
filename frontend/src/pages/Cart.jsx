@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeFromCart } from "../redux/features/cart/cartSlice";
+import { clearCart, removeFromCart } from "../redux/features/cart/CartSlice";
 
 function getImgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
@@ -32,21 +32,17 @@ const Cart = () => {
             Clear Cart
           </button>
         </div>
-
-        {/* Cart Items */}
         {cartItems.length > 0 ? (
           cartItems.map((product) => (
             <div key={product._id} className="flex justify-between sm:p-5 py-2">
               <div className="flex gap-3">
-                <div className="h-24 w-24 overflow-hidden rounded-md border border-gray-200">
-                  <img
-                    alt={product.title}
-                    src={getImgURL(product.coverImage)}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-                <div className="flex flex-col justify-between">
-                  <h3 className="font-semibold">{product.title}</h3>
+                <img
+                  alt={product.title}
+                  src={getImgURL(product.coverImage)}
+                  className="size-20 h-auto"
+                />
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-semibold line-clamp-1">{product.title}</h3>
                   <h3 className="font-medium">
                     Category: <span className="font-normal">{product.category}</span>
                   </h3>
@@ -74,7 +70,6 @@ const Cart = () => {
 
         <hr />
 
-        {/* Total and Checkout Section */}
         <div className="sm:p-5 py-5 flex flex-col gap-4 sm:gap-5">
           <div className="flex justify-between">
             <h3 className="font-medium">Total</h3>
@@ -86,7 +81,7 @@ const Cart = () => {
           >
             Checkout
           </Link>
-          <Link to="/" className="text-sm text-indigo-500 font-medium hover:text-indigo-700 transition-all">
+          <Link to="/" className="text-sm text-indigo-500 font-medium hover:text-indigo-700 transition-all text-center">
             Continue Shopping
           </Link>
         </div>

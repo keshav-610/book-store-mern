@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const categories = ["Choose a Genre", "Business", "Fiction", "Horror", "Adventure"];
 
@@ -20,7 +20,7 @@ const TopSellers = () => {
 
   const filteredBooks = selectedCategory === "Choose a Genre" 
     ? books 
-    : books.filter(book => book.category === selectedCategory.toLowerCase());
+    : books.filter(book => book.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
     <div className="md:py-8 mt-8 z-10">
@@ -60,12 +60,13 @@ const TopSellers = () => {
                 coverImage={book.coverImage}
                 oldPrice={book.oldPrice}
                 newPrice={book.newPrice}
+                category={book.category}
               />
             </SwiperSlide>
           ))
         ) : (
           <SwiperSlide>
-            <p>No books available for the selected genre.</p>
+            <p>No books available for the selected genre. Try selecting a different genre.</p>
           </SwiperSlide>
         )}
       </Swiper>
