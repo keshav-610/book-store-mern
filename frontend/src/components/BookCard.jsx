@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/features/cart/CardSlice"; 
+import { addToCart } from "../redux/features/cart/CartSlice"; 
 
 function getimgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
