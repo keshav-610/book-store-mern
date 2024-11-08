@@ -19,8 +19,8 @@ const Recommend = () => {
         spaceBetween={20}
         navigation={true}
         breakpoints={{
-          640: { slidesPerView: 1, spaceBetween: 20 }, 
-          768: { slidesPerView: 2, spaceBetween: 30 }, 
+          640: { slidesPerView: 1, spaceBetween: 20 },
+          768: { slidesPerView: 2, spaceBetween: 30 },
           1024: { slidesPerView: 3, spaceBetween: 40 },
         }}
         modules={[Navigation]}

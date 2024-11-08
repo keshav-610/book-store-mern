@@ -73,7 +73,7 @@ const NavBar = () => {
           to="/cart"
           className="flex items-center justify-center px-3 py-1 sm:px-3 sm:py-2 rounded-md gap-1 bg-gray-800"
         >
-          <FaShoppingCart className="text-xl sm:text-xl text-white" />
+          <FaShoppingCart className="text-base sm:text-xl text-white" />
           {
             cartItems.length > 0 ? <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">{cartItems.length}</span> : <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">0</span>
           } 

@@ -18,8 +18,8 @@ const TopSellers = () => {
       .then((data) => setBooks(data));
   }, []);
 
-  const filteredBooks = selectedCategory === "Choose a Genre" 
-    ? books 
+  const filteredBooks = selectedCategory === "Choose a Genre"
+    ? books
     : books.filter(book => book.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
@@ -48,13 +48,13 @@ const TopSellers = () => {
           768: { slidesPerView: 2, spaceBetween: 30 },
           1024: { slidesPerView: 3, spaceBetween: 40 },
         }}
-        modules={[Navigation]} 
+        modules={[Navigation]}
         loop
       >
         {filteredBooks.length > 0 ? (
           filteredBooks.map((book) => (
             <SwiperSlide key={book._id}>
-              <BookCard 
+              <BookCard
                 title={book.title}
                 description={book.description}
                 coverImage={book.coverImage}

@@ -43,10 +43,10 @@ const Cart = () => {
                 />
                 <div className="flex flex-col gap-2">
                   <h3 className="font-semibold line-clamp-1">{product.title}</h3>
-                  <h3 className="font-medium">
+                  <h3 className="font-semibold">
                     Category: <span className="font-normal">{product.category}</span>
                   </h3>
-                  <h1 className="font-medium">
+                  <h1 className="font-semibold">
                     Quantity: <span className="font-normal">{product.quantity}</span>
                   </h1>
                 </div>

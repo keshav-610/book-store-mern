@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/features/cart/CartSlice"; 
+import { addToCart } from "../redux/features/cart/CartSlice";
 
 function getimgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
@@ -15,7 +15,7 @@ const BookCard = ({ title, description, coverImage, oldPrice, newPrice, category
       coverImage,
       oldPrice,
       newPrice,
-      category, 
+      category,
       _id: title,
     };
     console.log(product)
