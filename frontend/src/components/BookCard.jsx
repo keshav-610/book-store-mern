@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/features/cart/CartSlice";
 
@@ -5,7 +6,7 @@ function getimgURL(name) {
   return new URL(`../assets/books/${name}`, import.meta.url);
 }
 
-const BookCard = ({ title, description, coverImage, oldPrice, newPrice, category }) => {
+const BookCard = ({ id, title, description, coverImage, oldPrice, newPrice, category }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -16,19 +17,20 @@ const BookCard = ({ title, description, coverImage, oldPrice, newPrice, category
       oldPrice,
       newPrice,
       category,
-      _id: title,
+      _id: id,  
     };
-    console.log(product)
     dispatch(addToCart(product));
   };
 
   return (
     <div className="border rounded-md shadow-lg font-sans transition-transform duration-300 hover:shadow-xl overflow-hidden">
       <div className="flex justify-center w-full">
-        <img
-          src={getimgURL(coverImage)}
-          alt={`${title} cover`}
-        />
+        <Link to={`/books/${id}`}> 
+          <img
+            src={getimgURL(coverImage)} 
+            alt={`${title} cover`} 
+          />
+        </Link>
       </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold mb-1">{title}</h3>

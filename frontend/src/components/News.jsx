@@ -13,7 +13,7 @@ const News = () => {
   return (
     <div>
       <div className="py-4">
-      <h2 className="text-4xl font-semibold">Top News for You</h2>
+      <h2 className="text-2xl sm:text-3xl font-semibold">Top News for You</h2>
       </div>
       <div className="flex flex-wrap gap-4 justify-between">
         {news.map((item) => (

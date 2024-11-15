@@ -14,16 +14,13 @@ app.use(
 const bookRoutes = require("./src/books/book_route");
 app.use("/api/books", bookRoutes);
 
-async function main() {
-  await mongoose.connect(process.env.DB_URL);
-  app.get("/", (req, res) => {
-    res.send("hello world!");
-  });
-}
-
-main()
+mongoose
+  .connect(process.env.DB_URL)
   .then(() => console.log("DB connection established"))
   .catch((err) => console.log(err));
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at http://localhost:${process.env.PORT}`);

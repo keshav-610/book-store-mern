@@ -14,7 +14,7 @@ const PostBook = async (req, res) => {
 
 const GetAllBooks = async (req, res) => {
   try {
-    const books = await Book.find().sort({ createdAt: -1 });
+    const books = await Book.find();
     res.status(200).send(books);
   } catch (error) {
     res.status(500).send({ message: "Error", error: error });
@@ -34,28 +34,44 @@ const GetSingleBook = async (req, res) => {
   }
 };
 
-const UpdateBook = async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        res.status(500).send({ message: "Error", error: error });
+const UpdateBook = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedBook) {
+      res.status(404).send({ message: "Book not found!" });
+    } else {
+      res.status(200).send({
+        message: "Book updated successfully",
+        book: updatedBook,
+      });
     }
-}
+  } catch (error) {
+    res.status(500).send({ message: "Error", error: error });
+  }
+};
 
 const DeleteBook = async (req, res) => {
-    try {
-        const {id} = req.params
-        const deletedBook = await Book.findByIdAndDelete(id)
-        if(!deletedBook){
-            res.status(404).send({message:"Book Not Found"})
-        }
-        res.send(200).send({
-            message:"Book Deleted Successfully",
-            book:deletedBook
-        })
-    } catch (error) {
-        res.status(500).send({ message: "Error", error: error });
+  try {
+    const { id } = req.params;
+    const deletedBook = await Book.findByIdAndDelete(id);
+    if (!deletedBook) {
+      res.status(404).send({ message: "Book not found" });
+    } else {
+      res.status(200).send({
+        message: "Book deleted successfully",
+        book: deletedBook,
+      });
     }
-}
+  } catch (error) {
+    res.status(500).send({ message: "Error", error: error });
+  }
+};
 
-module.exports = { PostBook, GetAllBooks,GetSingleBook,DeleteBook };
+module.exports = {
+  PostBook,
+  GetAllBooks,
+  GetSingleBook,
+  DeleteBook,
+  UpdateBook,
+};

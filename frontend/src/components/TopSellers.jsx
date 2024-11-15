@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BookCard from "./BookCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useFetchAllBooksQuery } from "../redux/features/books/booksAPI";
 
 const categories = ["Choose a Genre", "Business", "Fiction", "Horror", "Adventure"];
 
 const TopSellers = () => {
-  const [books, setBooks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Choose a Genre");
 
-  useEffect(() => {
-    fetch("/books.json")
-      .then((res) => res.json())
-      .then((data) => setBooks(data));
-  }, []);
+  const { data: books = [], isLoading, isError } = useFetchAllBooksQuery();
+  
+  if (isLoading) return <p>Loading books...</p>;
+  if (isError) return <p>Failed to load books.</p>;
 
   const filteredBooks = selectedCategory === "Choose a Genre"
     ? books
-    : books.filter(book => book.category.toLowerCase() === selectedCategory.toLowerCase());
+    : books.filter(book => book.category && book.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
     <div className="md:py-8 mt-8 z-10">
-      <h3 className="text-2xl md:text-3xl font-bold">Top Sellers</h3>
+      <h3 className="text-2xl sm:text-3xl font-bold">Top Sellers</h3>
       <div className="my-5">
         <select
           name="category"
@@ -55,6 +54,7 @@ const TopSellers = () => {
           filteredBooks.map((book) => (
             <SwiperSlide key={book._id}>
               <BookCard
+                id={book._id}  
                 title={book.title}
                 description={book.description}
                 coverImage={book.coverImage}

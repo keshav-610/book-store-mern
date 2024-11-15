@@ -3,9 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CheckOut from "./pages/CheckOut";
+import SingleBook from "./pages/SingleBook";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/books/:id" element={<SingleBook />} /> {/* Correct route path */}
         </Routes>
       </div>
     </div>

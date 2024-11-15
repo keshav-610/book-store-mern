@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useFetchAllBooksQuery } from "../redux/features/books/booksAPI";
 
 const Recommend = () => {
-  const [Books, setBooks] = useState([]);
-
-  useEffect(() => {
-    fetch("/books.json")
-      .then((res) => res.json())
-      .then((data) => setBooks(data))
-  }, []);
+  const { data: books = [], isLoading, isError } = useFetchAllBooksQuery();
+  
+  if (isLoading) return <p>Loading books...</p>;
+  if (isError) return <p>Failed to load books.</p>;
 
   return (
     <div className="py-6">
-      <h3 className="text-2xl md:text-3xl font-bold text-center mb-6">Recommended for You</h3>
+      <h3 className="text-2xl sm:text-3xl font-bold mb-6">Recommended for You</h3>
       <Swiper
         spaceBetween={20}
         navigation={true}
@@ -24,11 +21,12 @@ const Recommend = () => {
           1024: { slidesPerView: 3, spaceBetween: 40 },
         }}
         modules={[Navigation]}
-        loop={Books.length > 1}
+        loop={books.length > 1}
       >
-        {Books.map((book) => (
+        {books.map((book) => (
           <SwiperSlide key={book._id}>
             <BookCard
+              id={book._id}  
               title={book.title}
               description={book.description}
               coverImage={book.coverImage}
