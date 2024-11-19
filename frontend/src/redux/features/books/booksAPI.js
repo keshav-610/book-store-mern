@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:5000/api/books`,
+  baseUrl: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+    ? `http://localhost:5000/api/books` 
+    : `http://192.168.1.7:5000/api/books`, 
   credentials: "include",
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
@@ -11,6 +13,7 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
 
 const booksAPI = createApi({
   reducerPath: "booksAPI",

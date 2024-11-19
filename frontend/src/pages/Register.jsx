@@ -1,10 +1,31 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
+  const { registerUser, signInWithGoogle } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  
-  const onSubmit = data => console.log(data);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      await registerUser(data.email, data.password);
+      alert("User registered successfully");
+    } catch (err) {
+      alert(err.message || "An error occurred");
+    }
+  };
+
+  const handleGoogle = async () => {
+    try {
+      const userCredential = await signInWithGoogle();
+      console.log("Google Login successful", userCredential);
+      alert("Google Login successful");
+    } catch (error) {
+      console.log("Google Login error:", error);
+      alert("Google Login failed. Please try again. " + (error?.message || "Unknown error"));
+    }
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -18,26 +39,26 @@ const Register = () => {
               <div className="mb-4 flex flex-col gap-2">
                 <h3 className="text-base tracking-normal text-gray-700">Email</h3>
                 <input
-                  {...register("email", { required: true })}
+                  {...register("email", { required: "Email is required" })}
                   type="email"
                   name="email"
                   id="email"
                   className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
                   placeholder="Enter your email"
                 />
-                {errors.email && <span className="text-red-500 text-sm">Email is required</span>}
+                {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
               </div>
               <div className="mb-4 flex flex-col gap-2">
                 <h3 className="text-base tracking-normal text-gray-700">Password</h3>
                 <input
-                  {...register("password", { required: true })}
+                  {...register("password", { required: "Password is required" })}
                   type="password"
                   name="password"
                   id="password"
                   className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
                   placeholder="Enter your password"
                 />
-                {errors.password && <span className="text-red-500 text-sm">Password is required</span>}
+                {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
               </div>
             </div>
             <div className="flex justify-center">
@@ -50,8 +71,19 @@ const Register = () => {
           </form>
           <div className="text-center text-gray-600">
             <h3>
-              Already have an account? <Link to="/login" className="text-blue-500 hover:underline cursor-pointer">Login</Link>
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-500 hover:underline cursor-pointer">
+                Login
+              </Link>
             </h3>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="bg-blue-600 px-4 py-2 rounded-lg text-white hover:bg-blue-700 transition duration-200 shadow hover:shadow-lg"
+              onClick={handleGoogle}
+            >
+              Sign in with Google
+            </button>
           </div>
         </div>
       </div>

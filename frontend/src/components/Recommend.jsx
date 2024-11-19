@@ -7,7 +7,8 @@ const Recommend = () => {
   const { data: books = [], isLoading, isError } = useFetchAllBooksQuery();
   
   if (isLoading) return <p>Loading books...</p>;
-  if (isError) return <p>Failed to load books.</p>;
+  if (isError) {console.error("Error loading books:", isError);  // Log error for more insight
+    return <p>Failed to load books. Error: {JSON.stringify(isError)}</p>;};
 
   return (
     <div className="py-6">

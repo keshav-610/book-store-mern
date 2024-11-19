@@ -13,9 +13,18 @@ const TopSellers = () => {
   const [selectedCategory, setSelectedCategory] = useState("Choose a Genre");
 
   const { data: books = [], isLoading, isError } = useFetchAllBooksQuery();
-  
+  console.log(books)
+  console.log(isLoading, isError)
+
   if (isLoading) return <p>Loading books...</p>;
-  if (isError) return <p>Failed to load books.</p>;
+  if (isError) {
+    console.error("Error loading books:", isError);
+    return (
+      <p>
+        Failed to load books. Error: {JSON.stringify(isError)} 
+      </p>
+    );
+  } 
 
   const filteredBooks = selectedCategory === "Choose a Genre"
     ? books
@@ -54,7 +63,7 @@ const TopSellers = () => {
           filteredBooks.map((book) => (
             <SwiperSlide key={book._id}>
               <BookCard
-                id={book._id}  
+                id={book._id}
                 title={book.title}
                 description={book.description}
                 coverImage={book.coverImage}
