@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CheckOut from "./pages/CheckOut";
 import SingleBook from "./pages/SingleBook";
-import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   return (
@@ -18,16 +18,17 @@ export default function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/cart" element={<Cart />} />
+            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
+            <Route path="/books/:id" element={<SingleBook />} />
+
             <Route element={<PrivateRoute />}>
               <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
-
-            <Route path="/books/:id" element={<SingleBook />} />
           </Routes>
         </div>
       </div>

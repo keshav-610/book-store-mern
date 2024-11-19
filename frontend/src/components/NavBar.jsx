@@ -1,9 +1,7 @@
 import { FaBookOpen, FaShoppingCart } from "react-icons/fa";
-import { IoSearchSharp } from "react-icons/io5";
-import { MdFavoriteBorder } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../assets/avatar.png";
@@ -12,13 +10,13 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Orders", href: "/orders" },
   { name: "Cart Page", href: "/cart" },
-  { name: "Login", href: "/login" },
 ];
 
 const NavBar = () => {
-  const { currentUser, logout } = useAuth(); 
+  const { currentUser, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     console.log("Current User:", currentUser);
@@ -26,10 +24,18 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(); 
+      await logout();
       alert("Logged out successfully");
     } catch (error) {
       alert("Logout failed. Please try again.");
+    }
+  };
+
+  const handleCartClick = () => {
+    if (!currentUser) {
+      navigate("/login"); 
+    } else {
+      navigate("/cart"); 
     }
   };
 
@@ -39,14 +45,6 @@ const NavBar = () => {
         <Link to="/">
           <FaBookOpen className="text-black text-3xl sm:text-4xl" />
         </Link>
-        <div className="relative flex items-center">
-          <IoSearchSharp className="absolute left-2 text-gray-500 text-lg sm:text-xl" />
-          <input
-            type="text"
-            className="pl-10 rounded-md w-36 sm:w-96 h-8 sm:h-10 focus:outline-none hover:border-yellow-400 cursor-pointer border-2 bg-gray-200 text-black border-transparent transition-colors duration-300"
-            placeholder="Search..."
-          />
-        </div>
       </div>
 
       <div className="flex justify-center items-center gap-3 sm:gap-6">
@@ -93,25 +91,15 @@ const NavBar = () => {
           )}
         </div>
 
-        <button className="hidden sm:block">
-          <MdFavoriteBorder className="text-black text-2xl sm:text-3xl" />
-        </button>
-
-        <Link
-          to="/cart"
+        <button
+          onClick={handleCartClick}
           className="flex items-center justify-center px-3 py-1 sm:px-3 sm:py-2 rounded-md gap-1 bg-gray-800"
         >
           <FaShoppingCart className="text-base sm:text-xl text-white" />
-          {cartItems.length > 0 ? (
-            <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">
-              {cartItems.length}
-            </span>
-          ) : (
-            <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">
-              0
-            </span>
-          )}
-        </Link>
+          <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">
+            {cartItems.length > 0 ? cartItems.length : 0}
+          </span>
+        </button>
       </div>
     </div>
   );
