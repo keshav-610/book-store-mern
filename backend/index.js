@@ -7,14 +7,16 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://192.168.1.7:5173", "http://localhost:5173"], 
+    origin:"http://localhost:5173", 
     credentials: true,
   })
 );
 
 
 const bookRoutes = require("./src/books/book_route");
+const orderRoutes = require("./src/orders/order_route")
 app.use("/api/books", bookRoutes);
+app.use("/api/orders",orderRoutes)
 
 mongoose
   .connect(process.env.DB_URL)
@@ -26,5 +28,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server running at http://192.168.1.7:${process.env.PORT}`); // Update this to your local IP address
+  console.log(`Server running at http://localhost:${process.env.PORT}`); // Update this to your local IP address
 });

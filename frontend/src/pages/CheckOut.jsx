@@ -1,29 +1,61 @@
-import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useCreateOrderMutation } from "../redux/features/orders/ordersAPI";
+import Swal from "sweetalert2";
 
 const CheckOut = () => {
-  const { currentUser, loading } = useAuth(); 
+  const { register, handleSubmit, setValue } = useForm();
+  const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation()
+
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (!currentUser) {
-    navigate("/login", { replace: true }); 
-    return null; 
+    navigate("/login", { replace: true });
+    return null;
   }
 
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const totalPrice = cartItems.reduce((acc, item) => acc + (item.newPrice * item.quantity), 0).toFixed(2);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.newPrice * item.quantity, 0).toFixed(2);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission here
+  const userEmail = currentUser.email;
+  setValue("email", userEmail);
+
+  const onSubmit = async (data) => {
+
+    const newOrder = {
+      name: data.name,
+      email: currentUser?.email,
+      address: {
+        city: data.city,
+        zipcode: data.zipcode,
+        state: data.state,
+        country: data.country,
+      },
+      phone: data.phone,
+      productIds: cartItems.map(item => item._id),
+      totalPrice: totalPrice,
+    };
+
+    try {
+      await createOrder(newOrder).unwrap();
+      Swal.fire({
+        position: "top", icon: "success", title: "Order Successful !", showConfirmButton: false,
+        timer: 1500
+      })
+      navigate("/");
+    } catch (err) {
+      console.error("Error placing order", err);
+      alert("Failed to place an order");
+    }
   };
+
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -39,93 +71,69 @@ const CheckOut = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Name</label>
+                <label htmlFor="full_name" className="block text-sm font-semibold text-gray-700">
+                  Full Name
+                </label>
                 <input
                   id="name"
                   type="text"
-                  {...register("name", { required: "Name is required" })}
+                  {...register("name")}
                   className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
-                {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
               </div>
-              
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+                  Email
+                </label>
                 <input
                   id="email"
                   type="email"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email")}
+                  defaultValue={userEmail}
                   className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  readOnly={true}
                 />
-                {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
               </div>
-
               <div>
-                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700">Phone Number</label>
+                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700">
+                  Phone Number
+                </label>
                 <input
                   id="phone"
-                  type="text"
-                  {...register("phone", { required: "Phone number is required" })}
+                  type="number"
+                  {...register("phone")}
                   className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
-                {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
               </div>
-
               <div>
-                <label htmlFor="address" className="block text-sm font-semibold text-gray-700">Address</label>
+                <label htmlFor="address">
+                  Address
+                </label>
                 <input
+                  type="text"
                   id="address"
-                  type="text"
-                  {...register("address", { required: "Address is required" })}
+                  {...register("address")}
                   className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
-                {errors.address && <p className="text-red-500 text-xs">{errors.address.message}</p>}
               </div>
-
               <div>
-                <label htmlFor="city" className="block text-sm font-semibold text-gray-700">City</label>
-                <input
-                  id="city"
-                  type="text"
-                  {...register("city", { required: "City is required" })}
-                  className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                {errors.city && <p className="text-red-500 text-xs">{errors.city.message}</p>}
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" {...register("city")} className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400" />
               </div>
-
               <div>
-                <label htmlFor="state" className="block text-sm font-semibold text-gray-700">State</label>
-                <input
-                  id="state"
-                  type="text"
-                  {...register("state", { required: "State is required" })}
-                  className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                {errors.state && <p className="text-red-500 text-xs">{errors.state.message}</p>}
+                <label htmlFor="zipcode">Zipcode</label>
+                <input type="number" id="zipcode" {...register("zipcode")} className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400" />
               </div>
-
               <div>
-                <label htmlFor="country" className="block text-sm font-semibold text-gray-700">Country</label>
-                <input
-                  id="country"
-                  type="text"
-                  {...register("country", { required: "Country is required" })}
-                  className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                {errors.country && <p className="text-red-500 text-xs">{errors.country.message}</p>}
+                <label htmlFor="state">
+                  State
+                </label>
+                <input type="text" id="state" {...register("state")} className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400" />
               </div>
-
               <div>
-                <label htmlFor="zipcode" className="block text-sm font-semibold text-gray-700">Zipcode</label>
-                <input
-                  id="zipcode"
-                  type="text"
-                  {...register("zipcode", { required: "Zipcode is required" })}
-                  className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                />
-                {errors.zipcode && <p className="text-red-500 text-xs">{errors.zipcode.message}</p>}
+                <label htmlFor="country">Country</label>
+                <input type="text" id="country" {...register("country")} className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400" />
               </div>
-
               <button
                 type="submit"
                 className="w-full py-3 bg-yellow-500 text-white rounded-md font-semibold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 mt-6"

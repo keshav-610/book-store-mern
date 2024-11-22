@@ -7,7 +7,6 @@ import { useAuth } from "../context/AuthContext";
 import avatar from "../assets/avatar.png";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard" },
   { name: "Orders", href: "/orders" },
   { name: "Cart Page", href: "/cart" },
 ];
