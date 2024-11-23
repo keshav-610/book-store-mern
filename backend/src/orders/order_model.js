@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+
 const orderSchema = mongoose.Schema(
   {
     name: {
@@ -10,6 +11,10 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     address: {
+      street: {
+        type: String,
+        required: true,
+      },
       city: {
         type: String,
         required: true,
@@ -39,5 +44,5 @@ const orderSchema = mongoose.Schema(
   }
 );
 
-const Order = mongoose.model("Order", orderSchema);
-module.exports = Order;
+const Order = mongoose.model("Order", orderSchema)
+module.exports = Order

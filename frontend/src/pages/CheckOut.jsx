@@ -9,8 +9,7 @@ const CheckOut = () => {
   const { register, handleSubmit, setValue } = useForm();
   const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation()
-
+  const [createOrder] = useCreateOrderMutation()
 
   if (loading) {
     return <div>Loading...</div>;
@@ -28,11 +27,11 @@ const CheckOut = () => {
   setValue("email", userEmail);
 
   const onSubmit = async (data) => {
-
     const newOrder = {
       name: data.name,
       email: currentUser?.email,
       address: {
+        street: data.street, 
         city: data.city,
         zipcode: data.zipcode,
         state: data.state,
@@ -55,7 +54,6 @@ const CheckOut = () => {
       alert("Failed to place an order");
     }
   };
-
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -106,13 +104,11 @@ const CheckOut = () => {
                 />
               </div>
               <div>
-                <label htmlFor="address">
-                  Address
-                </label>
+                <label htmlFor="street">Street Address</label>
                 <input
                   type="text"
-                  id="address"
-                  {...register("address")}
+                  id="street"
+                  {...register("street")}
                   className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 />
               </div>
