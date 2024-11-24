@@ -9,7 +9,6 @@ const SingleBook = () => {
   return (
     <div>
       <h1>Book Details for ID: {id}</h1>
-      {/* Fetch and display the book details here */}
     </div>
   );
 };

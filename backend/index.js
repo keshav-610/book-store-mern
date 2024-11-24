@@ -7,16 +7,18 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin:"http://localhost:5173", 
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
-
 const bookRoutes = require("./src/books/book_route");
-const orderRoutes = require("./src/orders/order_route")
+const orderRoutes = require("./src/orders/order_route");
+const userRoutes = require("./src/users/user_routes");
+
 app.use("/api/books", bookRoutes);
-app.use("/api/orders",orderRoutes)
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", userRoutes);
 
 mongoose
   .connect(process.env.DB_URL)

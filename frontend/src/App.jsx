@@ -9,6 +9,7 @@ import CheckOut from "./pages/CheckOut";
 import SingleBook from "./pages/SingleBook";
 import PrivateRoute from "./components/PrivateRoute";
 import Orders from "./pages/Orders.jsx";
+import NotFound from "./pages/NotFound"; 
 
 export default function App() {
   return (
@@ -18,16 +19,15 @@ export default function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/cart" element={<Cart />} />
-            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/books/:id" element={<SingleBook />} />
             <Route element={<PrivateRoute />}>
+              <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<CheckOut />} />
-              <Route path="/orders" element={<Orders/>}/>
+              <Route path="/orders" element={<Orders />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

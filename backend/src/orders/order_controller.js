@@ -27,7 +27,7 @@ const getAllOrders = async (req, res) => {
 const getOrderByEmail = async (req, res) => {
   try {
     const { email } = req.params; 
-    const orders = await Order.find({ email }); 
+    const orders = await Order.find({ email }).sort({createdAt: -1});; 
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching orders by email", error);

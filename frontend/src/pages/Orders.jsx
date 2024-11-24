@@ -4,11 +4,8 @@ import { useGetOrderByEmailQuery } from "../redux/features/orders/ordersAPI";
 const Orders = () => {
   const { currentUser } = useAuth();
   const { data: orders = [], isLoading, isError } = useGetOrderByEmailQuery(currentUser?.email); 
-
   if (isLoading) return <div className="flex justify-center items-center text-xl font-semibold">Loading...</div>;
-
   if (isError) return <div className="flex justify-center items-center text-xl font-semibold text-red-600">Error fetching orders</div>;
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
@@ -31,9 +28,7 @@ const Orders = () => {
                       <p><strong>Address:</strong></p>
                       <p>{order.address.street}, {order.address.city}, {order.address.state},- {order.address.zipcode}, {order.address.country} </p>
                     </div>
-                  
                     <p className="mt-2"><strong>Order Created:</strong> {new Date(order.createdAt).toLocaleDateString()} at {new Date(order.createdAt).toLocaleTimeString()}</p>
-
                     <p className="mt-2"><strong>Products:</strong> {order.productIds.join(', ')}</p>
                   </div>
                 ))

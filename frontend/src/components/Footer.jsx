@@ -23,7 +23,7 @@ const Footer = () => {
       .sendForm("service_la0ceoq", "template_xsnp3he", e.target, "ulGBMdxKs7GWi4dmd")
       .then(() => {
         alert("Message sent successfully!");
-        setFormData({ name: "", email: "", message: "" }); // Reset form fields
+        setFormData({ name: "", email: "", message: "" }); 
       })
       .catch((err) => {
         console.error("Error sending message:", err);
