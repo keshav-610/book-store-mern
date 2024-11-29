@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
+const path = require("path");
 
 app.use(express.json());
 app.use(
@@ -15,10 +16,14 @@ app.use(
 const bookRoutes = require("./src/books/book_route");
 const orderRoutes = require("./src/orders/order_route");
 const userRoutes = require("./src/users/user_routes");
+const adminRoutes = require("./src/stats/admin_stats")
 
+
+app.use("/assets/books", express.static(path.join(__dirname, "../public/books")));
 app.use("/api/books", bookRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/api/admin",adminRoutes)
 
 mongoose
   .connect(process.env.DB_URL)

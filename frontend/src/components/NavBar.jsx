@@ -58,7 +58,7 @@ const NavBar = () => {
                 />
               </button>
               {isDropdownOpen && (
-                <div className="absolute right-0 bg-white shadow-md rounded-md mt-2">
+                <div className="absolute right-0 bg-white shadow-md rounded-md mt-2 w-32"> 
                   <ul className="flex flex-col">
                     {navigation.map((item) => (
                       <li key={item.name}>
