@@ -38,5 +38,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Vercel requires serverless export
-module.exports = app;
+// Run locally on port 5000
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
