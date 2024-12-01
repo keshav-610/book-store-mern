@@ -2,29 +2,51 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { FaGoogle } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const { registerUser, signInWithGoogle } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const showSuccessAlert = (message) => {
+    Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  };
+
+  const showErrorAlert = (message) => {
+    Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "error",
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  };
+
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       await registerUser(data.email, data.password);
-      alert("User registered successfully");
+      showSuccessAlert("User registered successfully");
     } catch (err) {
-      alert(err.message || "An error occurred");
+      showErrorAlert(err.message || "An error occurred");
     }
   };
 
   const handleGoogle = async () => {
     try {
       const userCredential = await signInWithGoogle();
-      console.log("Google Login successful", userCredential);
-      alert("Google Login successful");
+      showSuccessAlert("Google Login successful");
     } catch (error) {
-      console.log("Google Login error:", error);
-      alert("Google Login failed. Please try again. " + (error?.message || "Unknown error"));
+      showErrorAlert("Google Login failed. Please try again. " + (error?.message || "Unknown error"));
     }
   };
 

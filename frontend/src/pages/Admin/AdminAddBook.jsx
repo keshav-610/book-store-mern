@@ -1,6 +1,9 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddBook = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -41,21 +44,37 @@ const AdminAddBook = () => {
     try {
       const token = localStorage.getItem("adminToken");
       if (!token) {
-        alert("No token found, please log in as admin.");
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "error",
+          title: "No token found, please log in as admin.",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
         return;
       }
 
       const response = await fetch("http://localhost:5000/api/books/create_book", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: data,
       });
 
       const result = await response.json();
       if (response.ok) {
-        alert("Book created successfully!");
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "success",
+          title: "Book Created Successfully",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
         setFormData({
           title: "",
           description: "",
@@ -65,18 +84,35 @@ const AdminAddBook = () => {
           newPrice: "",
           coverImage: null,
         });
+        navigate("/dashboard");
       } else {
-        alert(`Error: ${result.message}`);
+        Swal.fire({
+          toast: true,
+          position: "top",
+          icon: "error",
+          title: result.message || "Failed to create book",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     } catch (error) {
       console.error("Error posting book:", error);
-      alert("Error posting the book.");
+      Swal.fire({
+        toast: true,
+        position: "top",
+        icon: "error",
+        title: "An error occurred while creating the book.",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
     }
   };
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full"> {/* Adjusted max-w-md to max-w-xl */}
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Add New Book</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

@@ -17,7 +17,7 @@ router.post("/admin", async (req, res) => {
     const token = jwt.sign(
       { id: admin._id, username: admin.username, role: admin.role },
       JWT_SECRET,
-      { expiresIn: "1m" } 
+      { expiresIn: "1h" } 
     );
 
     return res.status(200).json({
@@ -31,6 +31,16 @@ router.post("/admin", async (req, res) => {
   } catch (error) {
     console.error("Error during authentication:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const list = await User.find();
+    return res.status(200).json(list);
+  } catch (error) {
+    console.log("Internal server error:", error);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
 

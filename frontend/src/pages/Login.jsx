@@ -2,35 +2,57 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { FaGoogle } from "react-icons/fa";
+import Swal from "sweetalert2";
+
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { loginUser, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
 
+  const showSuccessAlert = (message) => {
+    Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  };
+
+  const showErrorAlert = (message) => {
+    Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "error",
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  };
+
   const onSubmit = async (data) => {
     try {
       await loginUser(data.email, data.password);
-      console.log("Login successful");
-      alert("Login successful");
+      showSuccessAlert("Login successful");
       navigate("/");
     } catch (error) {
-      alert("Login failed. Please try again. " + (error?.message || "Unknown error"));
+      showErrorAlert("Login failed. Please try again. " + (error?.message || "Unknown error"));
     }
   };
-
 
   const handleGoogle = async () => {
     try {
       const userCredential = await signInWithGoogle();
-      console.log("Google Login successful", userCredential);
-      alert("Google Login successful");
+      console.log(userCredential)
+      showSuccessAlert("Google Login successful");
       navigate("/");
     } catch (error) {
-      console.log("Google Login error:", error);
-      alert("Login failed. Please try again. " + (error?.message || "Unknown error"));
+      showErrorAlert("Login failed. Please try again. " + (error?.message || "Unknown error"));
     }
   };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen">

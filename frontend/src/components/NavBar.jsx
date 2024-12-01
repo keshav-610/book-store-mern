@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../assets/avatar.png";
+import Swal from "sweetalert2";
 
 const navigation = [
   { name: "Orders", href: "/orders" },
@@ -24,9 +25,25 @@ const NavBar = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      alert("Logged out successfully");
+      Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "success",
+      title: "Logged out Successfully",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      });
     } catch (error) {
-      alert("Logout failed. Please try again.");
+      Swal.fire({
+      toast: true,
+      position: "top",
+      icon: "error",
+      title: error,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      });
     }
   };
 
@@ -92,7 +109,7 @@ const NavBar = () => {
 
         <button
           onClick={handleCartClick}
-          className="flex items-center justify-center px-3 py-1 sm:px-3 sm:py-2 rounded-md gap-1 bg-gray-800"
+          className="flex items-center justify-center px-3 py-1 sm:px-3 sm:py-2 rounded-md gap-1 bg-gray-800 hover:bg-gray-950 transition-colors"
         >
           <FaShoppingCart className="text-base sm:text-xl text-white" />
           <span className="ml-1 sm:ml-2 font-normal text-base sm:text-lg text-white">
