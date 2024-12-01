@@ -12,7 +12,7 @@ function AdminLogin() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/admin", {
+            const response = await axios.post("https://book-store-mern-backend-navy.vercel.app/api/auth/admin", {
                 username,
                 password,
             });

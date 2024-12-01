@@ -56,7 +56,7 @@ const AdminAddBook = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/books/create_book", {
+      const response = await fetch("https://book-store-mern-backend-navy.vercel.app/api/books/create_book", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

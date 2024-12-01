@@ -20,7 +20,7 @@
     useEffect(() => {
       const fetchStats = async () => {
         try {
-          const response = await fetch("http://localhost:5000/api/admin");
+          const response = await fetch("https://book-store-mern-backend-navy.vercel.app/api/admin");
           const data = await response.json();
           setStats(data);
         } catch (error) {
