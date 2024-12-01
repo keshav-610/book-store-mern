@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const verifyAdminToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from "Bearer <token>"
+  const token = req.headers["authorization"]?.split(" ")[1]; 
 
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
@@ -17,7 +17,7 @@ const verifyAdminToken = (req, res, next) => {
       return res.status(403).json({ message: "Forbidden: Admins only" });
     }
 
-    req.user = decoded; // Attach the decoded user info to the request
+    req.user = decoded; 
     next();
   });
 };

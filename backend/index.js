@@ -8,7 +8,7 @@ const path = require("path");
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173","https://book-store-mern-frontend-theta.vercel.app"],
     credentials: true,
   })
 );
@@ -35,5 +35,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server running at http://localhost:${process.env.PORT}`); // Update this to your local IP address
+  console.log(`Server running at http://localhost:${process.env.PORT}`);
 });

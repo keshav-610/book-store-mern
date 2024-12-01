@@ -1,9 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? `http://localhost:5000/api/` 
-    : `http://192.168.1.7:5000/api/`, 
+  baseUrl: "http://localhost:5000/api/",
   credentials: "include", 
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
@@ -31,7 +29,7 @@ const booksAPI = createApi({
 
     addBooks: builder.mutation({
       query: (newBook) => ({
-        url: "books/create_book", 
+        url: "books/create_book",
         method: "POST",
         body: newBook,
       }),
