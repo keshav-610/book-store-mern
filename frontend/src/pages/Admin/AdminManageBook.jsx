@@ -1,4 +1,4 @@
-import { useFetchAllBooksQuery } from '../../redux/features/books/booksApi';
+import { useFetchAllBooksQuery } from "../../redux/features/books/booksAPI";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
