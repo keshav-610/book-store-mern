@@ -53,13 +53,15 @@ const AdminAddBook = () => {
         },
         body: data,
       });
-
+      
+      const textResponse = await response.text();
+      console.log("Raw Response:", textResponse); // Log the raw response
+      
       if (response.ok) {
         Swal.fire("Success", "Book posted successfully!", "success");
       } else {
-        const textResponse = await response.text();
-        Swal.fire("Error", textResponse, "error");
-      }
+        Swal.fire("Error", textResponse || "An error occurred", "error");
+      }      
     } catch (error) {
       console.error("Error posting book:", error);
       Swal.fire("Error", "An error occurred while posting the book.", "error");
