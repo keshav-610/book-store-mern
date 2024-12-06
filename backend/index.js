@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://book-store-mern-frontend-theta.vercel.app"],
+    origin:"https://book-store-mern-frontend-theta.vercel.app",
     credentials: true,
   })
 );
