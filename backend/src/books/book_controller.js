@@ -11,13 +11,21 @@ const PostBook = async (req, res) => {
     console.log("Received form data:", req.body);
     console.log("Received file:", req.file);
 
+    // Validate the required fields
+    const { title, description, category, oldPrice, newPrice } = req.body;
+    if (!title || !description || !category || !oldPrice || !newPrice) {
+      return res.status(400).send({ message: "All fields are required." });
+    }
+
+    // Ensure cover image is provided
     if (!req.file) {
       return res.status(400).send({ message: "Cover image is required." });
     }
 
-    const { title, description, category, oldPrice, newPrice } = req.body;
+    // Save cover image filename
     const coverImage = req.file.filename;
 
+    // Create a new book object
     const newBook = new Book({
       title,
       description,
@@ -27,10 +35,16 @@ const PostBook = async (req, res) => {
       coverImage,
     });
 
+    // Save the book to the database
     await newBook.save();
+
+    // Respond with success message and the new book
     res.status(201).send({ message: "Book created successfully", book: newBook });
   } catch (error) {
+    // Log the error for debugging purposes
     console.error("Error creating book:", error.message);
+
+    // Respond with error message and error details
     res.status(500).send({ message: "Error creating book", error: error.message });
   }
 };
