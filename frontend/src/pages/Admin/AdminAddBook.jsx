@@ -1,9 +1,7 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";  // Importing SweetAlert2
 
 const AdminAddBook = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -44,15 +42,7 @@ const AdminAddBook = () => {
     try {
       const token = localStorage.getItem("adminToken");
       if (!token) {
-        Swal.fire({
-          toast: true,
-          position: "top",
-          icon: "error",
-          title: "No token found, please log in as admin.",
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-        });
+        Swal.fire("Error", "No admin token found", "error");
         return;
       }
 
@@ -64,57 +54,24 @@ const AdminAddBook = () => {
         body: data,
       });
 
-      const result = await response.json();
       if (response.ok) {
-        Swal.fire({
-          toast: true,
-          position: "top",
-          icon: "success",
-          title: "Book Created Successfully",
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-        });
-        setFormData({
-          title: "",
-          description: "",
-          category: "",
-          trending: false,
-          oldPrice: "",
-          newPrice: "",
-          coverImage: null,
-        });
-        navigate("/dashboard");
+        Swal.fire("Success", "Book posted successfully!", "success");
       } else {
-        Swal.fire({
-          toast: true,
-          position: "top",
-          icon: "error",
-          title: result.message || "Failed to create book",
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-        });
+        const textResponse = await response.text();
+        Swal.fire("Error", textResponse, "error");
       }
     } catch (error) {
       console.error("Error posting book:", error);
-      Swal.fire({
-        toast: true,
-        position: "top",
-        icon: "error",
-        title: "An error occurred while creating the book.",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      Swal.fire("Error", "An error occurred while posting the book.", "error");
     }
   };
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full"> {/* Adjusted max-w-md to max-w-xl */}
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-xl w-full">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Add New Book</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Title */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">Title</label>
             <input
@@ -128,6 +85,7 @@ const AdminAddBook = () => {
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">Description</label>
             <textarea
@@ -140,6 +98,7 @@ const AdminAddBook = () => {
             />
           </div>
 
+          {/* Category */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">Category</label>
             <select
@@ -149,9 +108,7 @@ const AdminAddBook = () => {
               className="p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
             >
-              <option value="" disabled>
-                Select a category
-              </option>
+              <option value="" disabled>Select a category</option>
               <option value="Business">Business</option>
               <option value="Fiction">Fiction</option>
               <option value="Horror">Horror</option>
@@ -159,6 +116,7 @@ const AdminAddBook = () => {
             </select>
           </div>
 
+          {/* Trending Checkbox */}
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -170,6 +128,7 @@ const AdminAddBook = () => {
             <label className="font-semibold text-gray-700">Trending</label>
           </div>
 
+          {/* Old Price */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">Old Price</label>
             <input
@@ -183,6 +142,7 @@ const AdminAddBook = () => {
             />
           </div>
 
+          {/* New Price */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">New Price</label>
             <input
@@ -196,6 +156,7 @@ const AdminAddBook = () => {
             />
           </div>
 
+          {/* Cover Image */}
           <div>
             <label className="block font-semibold text-gray-700 mb-2">Cover Image</label>
             <input
@@ -208,6 +169,7 @@ const AdminAddBook = () => {
             />
           </div>
 
+          {/* Submit Button */}
           <div>
             <button
               type="submit"

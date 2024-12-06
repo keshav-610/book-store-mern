@@ -4,33 +4,38 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
+
 const PostBook = async (req, res) => {
   try {
-    console.log("Received token:", req.headers["authorization"]);
-    console.log("User from token:", req.user);
+    // Log the received form data and file
+    console.log("Received form data:", req.body);
+    console.log("Received file:", req.file);
 
     if (!req.file) {
       return res.status(400).send({ message: "Cover image is required." });
     }
 
-    const fileName = req.file.filename;
+    const { title, description, category, oldPrice, newPrice } = req.body;
+    const coverImage = req.file.filename;
 
     const newBook = new Book({
-      ...req.body,
-      coverImage: fileName,
+      title,
+      description,
+      category,
+      oldPrice,
+      newPrice,
+      coverImage,
     });
 
     await newBook.save();
-
-    res
-      .status(201)
-      .send({ message: "Book posted successfully", book: newBook });
+    res.status(201).send({ message: "Book created successfully", book: newBook });
   } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error creating book", error: error.message });
+    console.error("Error creating book:", error.message);
+    res.status(500).send({ message: "Error creating book", error: error.message });
   }
 };
+
+
 
 const GetAllBooks = async (req, res) => {
   try {
@@ -56,7 +61,6 @@ const GetSingleBook = async (req, res) => {
 
 const UpdateBook = async (req, res) => {
   const { id } = req.params;
-
   try {
     const bookToUpdate = await Book.findById(id);
     if (!bookToUpdate) {
